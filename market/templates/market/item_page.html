@@ -1,0 +1,94 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %} 
+{% block style %}
+<script type="text/javascript">
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "270px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function openCart() {
+        document.getElementById("myCart").style.width = "370px";
+    }
+
+    function closeCart() {
+        document.getElementById("myCart").style.width = "0";
+    }
+</script>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-3">
+            <img style="padding: 0px; width: 80%; margin-top: 80px" src="{% static 'market/images/side_background.png' %}">
+        </div>
+
+        <div class="col-6">
+            <div class="row">
+                <div class="col-5">
+                    <img class="profile_photo" src="{{item.image.url}}" style="width:250px; height:250px; margin-top: 120px;">
+                </div>
+                <div class="col-7">
+                    <div class="row" style="margin-top: 0">
+                        <h3>Item Info</h3>
+                    </div>
+                    <div class="row" style="margin-top: 0">
+                        <div style="height: 1px; width: 500px; background-color: black; margin-left: -20px"></div>
+                    </div>
+                    <div class="row">
+                        <p>Name: <output name="surname">{{item.name}}</output></p>
+                    </div>
+                    <div class="row">
+                        <div style="height: 1px; width: 400px; background-color: #BABABA; margin-left: 10px"></div>
+                    </div>
+                    <div class="row">
+                        <p>Description: <output name="surname">{{item.description}}</output></p>
+                    </div>
+                    <div class="row">
+                        <div style="height: 1px; width: 400px; background-color: #BABABA; margin-left: 10px"></div>
+                    </div>
+                    <div class="row">
+                        <p>Shelflife Date: <output name="surname">{{item.shelflife_date}}</output></p>
+                    </div>
+                    <div class="row">
+                        <div style="height: 1px; width: 400px; background-color: #BABABA; margin-left: 10px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <p>Category: <output name="surname">{{item.category.name}}</output></p>
+                </div>
+                <div class="row">
+                    <div style="height: 1px; width: 715px; background-color: #BABABA; margin-left: 10px"></div>
+                </div>
+                <div class="row">
+                    <p>Amount In stock: <output name="surname">{{item.amount_in_stock}} {{item.measure}}</output></p>
+                </div>
+                <div class="row">
+                    <div style="height: 1px; width: 715px; background-color: #BABABA; margin-left: 10px"></div>
+                </div>
+                <div class="row">
+                    <p>Price: <output name="surname">{{item.price}} tg</output></p>
+                </div>
+                <div class="row">
+                    <div style="height: 1px; width: 715px; background-color: #BABABA; margin-left: 10px"></div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end">
+                <form method="POST" action="{% url 'add_to_basket' item.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary mt-3" type="submit">Add To Busket</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="col-3">
+            <img style="padding: 0px; width: 80%; margin-left: 0; margin-top: 80px" src="{% static 'market/images/side_background.png' %}">
+        </div>
+    </div>
+{% endblock %}

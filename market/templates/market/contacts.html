@@ -1,0 +1,77 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %} 
+{% block style %}
+<script type="text/javascript">
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "270px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function openCart() {
+        document.getElementById("myCart").style.width = "370px";
+    }
+
+    function closeCart() {
+        document.getElementById("myCart").style.width = "0";
+    }
+</script>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-3">
+            <img style="padding-left: 0px; width: 80%; margin-top: 75px" src="{% static 'market/images/side_background.png' %}" align="left" >
+        </div>
+        <div  class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <div class="category">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-1">
+                                    <img style="height: 40px; width: 40px; margin-top: 120px;"
+                                         src="{% static 'market/images/phone.png' %}">
+                                </div>
+                                <div class="col-11">
+                                    <h3 style="font-size: 30px">
+                                        +0987 1273 4756</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1">
+                                    <img style="height: 40px; width: 40px; margin-top: 60px;"
+                                         src="{% static 'market/images/email.png' %}">
+                                </div>
+                                <div class="col-11 text-align-left" style="margin-top: -60px;">
+                                    <h3 style="font-size: 30px">example@gmail.com</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1">
+                                    <img style="height: 40px; width: 40px; margin-top: 80px"
+                                         src="{% static 'market/images/location.png' %}">
+                                </div>
+                                <div class="col-11" style="margin-top: -40px;">
+                                    <h3 style="font-size: 30px">103 Luddingsbo Mekanikusv Stockholm, 103 66</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12 d-flex justify-content-center">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59598.06393153594!2d76.78795880031544!3d43.222645404134546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x388368967e2fa855%3A0x2961f68b2be8f57a!2sMEGA%20Center%20Alma-Ata!5e0!3m2!1sru!2skz!4v1639917088352!5m2!1sru!2skz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <img style="padding-left: 0px; width: 80%; margin-top: 75px" src="{% static 'market/images/side_background.png' %}" align="right" >
+            
+        </div>
+    </div>
+{% endblock %}

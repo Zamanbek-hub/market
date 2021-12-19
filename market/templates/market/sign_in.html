@@ -1,0 +1,83 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %} 
+{% block style %}
+<script type="text/javascript">
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "270px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function openCart() {
+        document.getElementById("myCart").style.width = "370px";
+    }
+
+    function closeCart() {
+        document.getElementById("myCart").style.width = "0";
+    }
+</script>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-3">
+            <img style="padding-left: 0px; width: 80%" src="{% static 'market/images/side_background.png' %}" >
+        </div>
+        <div class="col-6 mt-5">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-secondary mt-5" role="alert">
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+            <div class="row">
+                <div class="col-12 justify-content-center mb-5">
+                    <h3 style="text-align: center;">Log in</h3>
+                </div>
+            <div class="row">
+                <div class="col-12 justify-content-center">
+                    <form method="POST" action="{% url 'sign_in' %}">
+                    {% csrf_token %}
+                        {% if error %}
+                        <p class="text-danger text-center">{{ error }}</p>
+                        {% endif %}
+                        <div class="d-flex justify-content-center mb-4">
+                            <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                            <div class="form-outline justify-content-center">
+                                <label class="form-label" for="email_id">E_mail</label>
+                                <input type="text" class="form-control" name="email" id="email_id"/>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mb-4">
+                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                            <div class="form-outline justify-content-center">
+                                <label class="form-label" for="password_id">Password</label>
+                                <input type="password" class="form-control" name="password" id="password_id"/>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mx-4">
+                            <button type="submit" class="btn btn-primary btn-lg" name="foo" value="register" style="margin-top: 40px; background-color: black; border: none" formmethod="POST">Log in</button>
+                        </div>
+
+                        <div class="d-flex mt-3 justify-content-center">
+                            <a href="{% url 'sign_up' %}">Register</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="col-3">
+            <img style="padding-right: 0px; width: 80%" src="{% static 'market/images/side_background.png' %}" align="right">
+        </div>
+    </div>
+{% endblock %}
