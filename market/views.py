@@ -26,7 +26,7 @@ def home(request):
         items2 = Item.objects.filter(category__name__contains=search)
         items = [*items1, *items2]
 
-    category = request.GET.get("category", None)
+    category = request.GET.get("    ", None)
     if category is not None:
         items = Item.objects.filter(category__name=category)
 
@@ -40,13 +40,10 @@ def home(request):
         'items': items,
     }
     
-
     basket_id = request.COOKIES.get('basket_id', None)
     if basket_id is not None:
-        basket = Basket(token=basket_id)
         items = BasketItem.objects.filter(basket__token=basket_id, purchase_made=False)
 
-        context['basket_count'] = len(items)
         request.session['basket_count'] = len(items)
         response = render(request, 'market/index.html', context)
     else:
@@ -54,7 +51,6 @@ def home(request):
         basket = Basket(token=basket_id)
         basket.save()
 
-        context['basket_count'] = 0
         request.session['basket_count'] = 0
         response = render(request, 'market/index.html', context)
         response.set_cookie('basket_id', basket_id)
@@ -224,6 +220,18 @@ def update_basket_item(request):
         basket_item.count = count
         basket_item.price = count * basket_item.item.price
         basket_item.save()
+
+    return redirect('basket')
+
+
+def delete_basket_item(request):
+    if request.method == "POST":
+        basket_item = BasketItem.objects.get(id=request.POST['basket_item_id'])
+        basket_item.delete()
+
+        basket_id = request.COOKIES.get('basket_id', None)
+        items = BasketItem.objects.filter(basket__token=basket_id, purchase_made=False)
+        request.session['basket_count'] = len(items)
 
     return redirect('basket')
 

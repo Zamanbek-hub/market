@@ -14,39 +14,50 @@
             <div style="margin-top:120px">
                 <h3 class="mb-5" style="text-align: center;">Basket Items</h3>
                 {% for basket_item in basket_items %}
-                <form method="POST" action="{% url 'update_basket_item' %}">
-                    {% csrf_token %}
-                    <div class="row mt-4">
-                        <input type="hidden" name="basket_item_id" value={{basket_item.id}}>
-                        <div class="col-2">
-                            <img class="profile_photo" src="{{basket_item.item.image.url}}" style="width:70px; height:70px;">
-                        </div>
+                <div class="row">
+                    <div class="col-10">
+                        <form method="POST" action="{% url 'update_basket_item' %}">
+                            {% csrf_token %}
+                            <div class="row mt-4">
+                                <input type="hidden" name="basket_item_id" value="{{basket_item.id}}">
+                                <div class="col-2">
+                                    <img class="profile_photo" src="{{basket_item.item.image.url}}" style="width:70px; height:70px;">
+                                </div>
 
-                        <div class="col-2">
-                            <label for="name">Name : </label>
-                            <input type="text" class="special_input w-100" value="{{basket_item.item.name}}" id="name" readonly>
-                        </div>
-                        
-                        <div class="col-2">
-                            <label for="name">Amount : </label>
-                            <input type="text" class="w-75" name="count" value="{{basket_item.count}}">
-                        </div>
+                                <div class="col-2">
+                                    <label for="name">Name : </label>
+                                    <input type="text" class="special_input w-100" value="{{basket_item.item.name}}" id="name" readonly>
+                                </div>
+                                
+                                <div class="col-2">
+                                    <label for="name">Amount : </label>
+                                    <input type="text" class="w-75" name="count" value="{{basket_item.count}}">
+                                </div>
 
-                        <div class="col-2">
-                            <label for="name">Price : </label>
-                            <input type="text" class="special_input w-100" value="{{basket_item.item.price}}" readonly>
-                        </div>
+                                <div class="col-2">
+                                    <label for="name">Price : </label>
+                                    <input type="text" class="special_input w-100" value="{{basket_item.item.price}}" readonly>
+                                </div>
 
-                        <div class="col-2">
-                            <label for="name">Total : </label>
-                            <input type="text" class="special_input w-100" name="price" value="{{basket_item.price}}">
-                        </div>
+                                <div class="col-2">
+                                    <label for="name">Total : </label>
+                                    <input type="text" class="special_input w-100" name="price" value="{{basket_item.price}}">
+                                </div>
 
-                        <div class="col-2">
-                            <button class="btn btn-primary mt-3" type="submit">Update</button>
-                        </div>
+                                <div class="col-2">
+                                    <button class="btn btn-primary mt-3 w-100" type="submit">Update</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                    <div class="col-2">
+                        <form method="POST" action="{% url 'delete_basket_item' %}">
+                            <input type="hidden" name="basket_item_id" value="{{basket_item.id}}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary w-75" style="margin-top: 40px;">Delete</button>
+                        </form>
+                    </div>
+                </div>
                 {% endfor %}
                 {% if basket_items %}
                 
