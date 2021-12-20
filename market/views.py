@@ -26,11 +26,11 @@ def home(request):
         items2 = Item.objects.filter(category__name__contains=search)
         items = [*items1, *items2]
 
-    category = request.GET.get("    ", None)
+    category = request.GET.get("category", None)
     if category is not None:
         items = Item.objects.filter(category__name=category)
 
-    paginator = Paginator(items, 8)
+    paginator = Paginator(items.filter(amount_in_stock__gte=1), 8)
     page_number = request.GET.get('page', 1)
     items = paginator.get_page(page_number)
 
@@ -180,6 +180,11 @@ def basket(request):
     basket_items = BasketItem.objects.filter(basket=Basket.objects.get(token=request.COOKIES['basket_id']), purchase_made=False)
     total = sum([item.price for item in basket_items])
 
+    less_amount_item_id = request.GET.get("less_amount", None)
+    if less_amount_item_id is not None:
+        less_amount = BasketItem.objects.get(id=less_amount_item_id).item.amount_in_stock
+        messages.add_message(request, messages.INFO, f'Amount of this item = {less_amount}')
+
     context = {
         'basket_items': basket_items, 
         'total': total,
@@ -200,8 +205,9 @@ def add_to_basket(request, item_id):
         print(f'------ exists-{exists}')
         if exists:
             basket_item = BasketItem.objects.get(basket=basket, item=item, purchase_made=False)
-            basket_item.count += 1
-            basket_item.price = basket_item.price + basket_item.item.price
+            if basket_item.count + 1 <= basket_item.item.amount_in_stock:
+                basket_item.count += 1
+                basket_item.price = basket_item.price + basket_item.item.price
         else:
             basket_item = BasketItem(basket=basket,
                                 item=item,
@@ -217,6 +223,10 @@ def update_basket_item(request):
         basket_item = BasketItem.objects.get(id=request.POST['basket_item_id'])
 
         count = int(request.POST['count'])
+
+        if count > basket_item.item.amount_in_stock:
+            return redirect(f'/basket?less_amount={basket_item.id}')
+
         basket_item.count = count
         basket_item.price = count * basket_item.item.price
         basket_item.save()
@@ -240,6 +250,12 @@ def buy_basket_items(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
             return redirect('sign_in')
+
+        # update `item.amount_in_stock`
+        basket_items = BasketItem.objects.filter(basket__token=request.COOKIES['basket_id'], purchase_made=False)
+        for b_item in basket_items:
+            b_item.item.amount_in_stock -= b_item.count
+            b_item.item.save()
 
         BasketItem.objects.filter(basket__token=request.COOKIES['basket_id']).update(purchase_made=True)
 

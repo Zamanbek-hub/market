@@ -12,6 +12,16 @@
 
         <div class="col-6">
             <div style="margin-top:120px">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-secondary mt-5 mb-3" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
                 <h3 class="mb-5" style="text-align: center;">Basket Items</h3>
                 {% for basket_item in basket_items %}
                 <div class="row">
