@@ -191,8 +191,17 @@ def basket(request):
     }
 
     if request.user.is_authenticated:
-        context['delivery'] = Delivery.objects.get(user=request.user)
-        context['payment'] = Payment.objects.get(user=request.user)
+        delivery = Delivery.objects.get(user=request.user)
+        payment = Payment.objects.get(user=request.user)
+
+        if delivery.street and delivery.building and delivery.floor and delivery.apartment and payment.payment:
+            context['client_data_filled'] = True
+        else:
+            context['client_data_filled'] = False
+
+        context['delivery'] = delivery
+        context['payment'] = payment
+
     return render(request, 'market/basket.html', context)
 
 
